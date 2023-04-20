@@ -4,9 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import CourseCard from '../CourseCard';
-import { mockedState1 } from '../../../../../constants';
-
-import axios from 'axios';
+import { mockedAuthorsList, mockedState1 } from '../../../../../constants';
 
 const mockedStore = {
 	getState: () => mockedState1,
@@ -18,78 +16,105 @@ const mockedStore = {
 
 const course = {
 	id: '1',
-	title: 'title',
-	description: 'description',
-	creationDate: '3/4/2023',
-	duration: 120,
-	authors: ['author', 'author2'],
+	title: 'courseCardTitle1',
+	description: 'courseCardDescription1',
+	creationDate: '3/4/2015',
+	duration: 240,
+	authors: ['27cc3006-e93a-4748-8ca8-73d06aa93b6d'],
 };
 
-jest.mock('axios');
-// jest.mock('../../helpers/api');
-
-test('CourseCard should display title', (): void => {
-	(axios.get as jest.Mock).mockResolvedValue(course);
-
-	render(
-		<Provider store={mockedStore}>
-			<BrowserRouter>
-				<CourseCard course={course} />
-			</BrowserRouter>
-		</Provider>
-	);
-
-	expect(screen.getByText('title')).toBeInTheDocument();
+jest.mock('../../../../../hooks/useCoursesHook', () => {
+	return () => ({
+		courses: [
+			{
+				id: '3',
+				title: 'title',
+				description: 'descriptionTest1',
+				creationDate: '3/4/2023',
+				duration: 120,
+				authors: ['27cc3006-e93a-4748-8ca8-73d06aa93b6d'],
+			},
+			{
+				id: '4',
+				title: 'title2',
+				description: 'descriptionTest2',
+				creationDate: '3/4/2023',
+				duration: 90,
+				authors: ['27cc3006-e93a-4748-8ca8-73d06aa93b6d'],
+			},
+		],
+	});
 });
 
-test('CourseCard should display description', (): void => {
-	(axios.get as jest.Mock).mockResolvedValue(course);
-	render(
-		<Provider store={mockedStore}>
-			<BrowserRouter>
-				<CourseCard course={course} />
-			</BrowserRouter>
-		</Provider>
-	);
-
-	expect(screen.getByText('description')).toBeInTheDocument();
+jest.mock('../../../../../hooks/useAuthorsHook', () => {
+	return () => ({
+		authors: mockedAuthorsList,
+	});
 });
 
-test('CourseCard should display duration in the correct format', (): void => {
-	(axios.get as jest.Mock).mockResolvedValue(course);
-	render(
-		<Provider store={mockedStore}>
-			<BrowserRouter>
-				<CourseCard course={course} />
-			</BrowserRouter>
-		</Provider>
-	);
+describe('Course card tests', () => {
+	it('CourseCard should display title', async () => {
+		render(
+			<Provider store={mockedStore}>
+				<BrowserRouter>
+					<CourseCard course={course} />
+				</BrowserRouter>
+			</Provider>
+		);
 
-	expect(screen.getByText('02:00 hours')).toBeInTheDocument();
-});
+		const courseTitle = await screen.findByText(/courseCardTitle1/i);
+		expect(courseTitle).toBeInTheDocument();
+	});
 
-test('CourseCard should display authors list', (): void => {
-	(axios.get as jest.Mock).mockResolvedValue(course);
-	render(
-		<Provider store={mockedStore}>
-			<BrowserRouter>
-				<CourseCard course={course} />
-			</BrowserRouter>
-		</Provider>
-	);
+	it('CourseCard should display description', async () => {
+		render(
+			<Provider store={mockedStore}>
+				<BrowserRouter>
+					<CourseCard course={course} />
+				</BrowserRouter>
+			</Provider>
+		);
 
-	expect(screen.getByText('author, author2')).toBeInTheDocument();
-});
+		const description = await screen.findByText(/courseCardDescription1/i);
+		expect(description).toBeInTheDocument();
+	});
 
-test('CourseCard should display created date in the correct format', (): void => {
-	(axios.get as jest.Mock).mockResolvedValue(course);
-	render(
-		<Provider store={mockedStore}>
-			<BrowserRouter>
-				<CourseCard course={course} />
-			</BrowserRouter>
-		</Provider>
-	);
+	it('CourseCard should display duration in the correct format', async () => {
+		render(
+			<Provider store={mockedStore}>
+				<BrowserRouter>
+					<CourseCard course={course} />
+				</BrowserRouter>
+			</Provider>
+		);
 
-	expect(screen.getByText('3/4/2023')).toBeInTheDocument();
+		const correctTime = await screen.findByText('04:00 hours');
+		expect(correctTime).toBeInTheDocument();
+	});
+
+	it('CourseCard should display authors list', async () => {
+		render(
+			<Provider store={mockedStore}>
+				<BrowserRouter>
+					<CourseCard course={course} />
+				</BrowserRouter>
+			</Provider>
+		);
+		screen.debug();
+		const authorName = await screen.findByText(/Vasiliy Dobkin/i);
+		expect(authorName).toBeInTheDocument();
+	});
+
+	it('CourseCard should display created date in the correct format', async () => {
+		render(
+			<Provider store={mockedStore}>
+				<BrowserRouter>
+					<CourseCard course={course} />
+				</BrowserRouter>
+			</Provider>
+		);
+
+		const correctDate = await screen.findByText('3/4/2015');
+		expect(correctDate).toBeInTheDocument();
+	});
 });

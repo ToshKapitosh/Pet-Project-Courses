@@ -248,7 +248,7 @@ const CourseForm: React.FC = () => {
 					</StyledAuthorBlock>
 					<StyledAuthorBlock>
 						<h3>Authors</h3>
-						<StyledDataInnerWrapper>
+						<StyledDataInnerWrapper data-testid='all-authors'>
 							{authorsError && (
 								<p>Ooops!! Some error occurred! {authorsError}</p>
 							)}
@@ -256,7 +256,10 @@ const CourseForm: React.FC = () => {
 							{!authorsLoading &&
 								!authorsError &&
 								authors.map((author) => (
-									<StyledAuthorChange key={author.id}>
+									<StyledAuthorChange
+										data-testid='all-authors-authors'
+										key={author.id}
+									>
 										<p>{author.name}</p>
 										<Button
 											text={BUTTONS_TEXT.ADD_AUTHOR}
@@ -266,10 +269,13 @@ const CourseForm: React.FC = () => {
 								))}
 						</StyledDataInnerWrapper>
 						<h3>Course authors</h3>
-						<StyledDataInnerWrapper>
+						<StyledDataInnerWrapper data-testid='course-authors'>
 							{courseAuthors.length ? (
 								courseAuthors.map((author) => (
-									<StyledAuthorChange key={author.id}>
+									<StyledAuthorChange
+										data-testid='course-authors-authors'
+										key={author.id}
+									>
 										<p>{author.name}</p>
 										<Button
 											text={BUTTONS_TEXT.DEL_AUTHOR}

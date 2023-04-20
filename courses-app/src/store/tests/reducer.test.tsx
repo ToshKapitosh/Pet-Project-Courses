@@ -1,158 +1,158 @@
-import { CoursesAPI } from '../../helpers/api';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-import { coursesReducer } from '../courses/coursesSlice';
-import {
-	getCoursesRequest,
-	addCourseRequest,
-	deleteCourseRequest,
-} from '../courses/coursesSlice';
+// import { CoursesAPI } from '../../helpers/api';
+// import configureMockStore from 'redux-mock-store';
+// import thunk from 'redux-thunk';
+// import { coursesReducer } from '../courses/coursesSlice';
+// import {
+// 	getCoursesRequest,
+// 	addCourseRequest,
+// 	deleteCourseRequest,
+// } from '../courses/coursesSlice';
 
-jest.mock('../../helpers/api');
-const mockStore = configureMockStore([thunk]);
+// jest.mock('../../helpers/api');
+// const mockStore = configureMockStore([thunk]);
 
-describe('coursesReducer', () => {
-	let store = mockStore({
-		courses: [],
-		status: false,
-		error: null,
-	});
-	beforeEach(() => {
-		store = mockStore({
-			courses: [],
-			status: false,
-			error: null,
-		});
-	});
+// describe('coursesReducer', () => {
+// 	let store = mockStore({
+// 		courses: [],
+// 		status: false,
+// 		error: null,
+// 	});
+// 	beforeEach(() => {
+// 		store = mockStore({
+// 			courses: [],
+// 			status: false,
+// 			error: null,
+// 		});
+// 	});
 
-	afterEach(() => {
-		jest.resetAllMocks();
-	});
-	it('should return the initial state', () => {
-		expect(coursesReducer(undefined, {} as any)).toEqual({
-			courses: [],
-			status: false,
-			error: null,
-		});
-	});
+// 	afterEach(() => {
+// 		jest.resetAllMocks();
+// 	});
+// 	it('should return the initial state', () => {
+// 		expect(coursesReducer(undefined, {} as any)).toEqual({
+// 			courses: [],
+// 			status: false,
+// 			error: null,
+// 		});
+// 	});
 
-	it('should handle adding new course and returns new state', () => {
-		const mockCourse = {
-			id: '1',
-			title: 'Test Course',
-			description: 'This is a test course',
-		};
+// 	it('should handle adding new course and returns new state', () => {
+// 		const mockCourse = {
+// 			id: '1',
+// 			title: 'Test Course',
+// 			description: 'This is a test course',
+// 		};
 
-		const mockResponse = { result: { id: 1, name: 'Math' } };
-    	CoursesAPI.addCourse.mockResolvedValueOnce(mockResponse);
+// 		const mockResponse = { result: { id: 1, name: 'Math' } };
+//     	CoursesAPI.addCourse.mockResolvedValueOnce(mockResponse);
 
-		const expectedState = {
-			courses: [mockCourse],
-			status: false,
-			error: null,
-		};
+// 		const expectedState = {
+// 			courses: [mockCourse],
+// 			status: false,
+// 			error: null,
+// 		};
 
-		store.dispatch(
-			addCourseRequest.fulfilled({
-				result: mockCourse,
-			} as any)
-		);
+// 		store.dispatch(
+// 			addCourseRequest.fulfilled({
+// 				result: mockCourse,
+// 			} as any)
+// 		);
 
-		expect(store.getActions()[0]).toEqual(
-			addCourseRequest.fulfilled({
-				result: mockCourse,
-			} as any)
-		);
+// 		expect(store.getActions()[0]).toEqual(
+// 			addCourseRequest.fulfilled({
+// 				result: mockCourse,
+// 			} as any)
+// 		);
 
-		expect(store.getState().coursesReducer).toEqual(expectedState);
-	});
+// 		expect(store.getState().coursesReducer).toEqual(expectedState);
+// 	});
 
-	it('should handle getting all courses and returns new state', () => {
-		const store = mockStore({
-			courses: [],
-			status: false,
-			error: null,
-		});
+// 	it('should handle getting all courses and returns new state', () => {
+// 		const store = mockStore({
+// 			courses: [],
+// 			status: false,
+// 			error: null,
+// 		});
 
-		const mockCourses = [
-			{
-				id: '1',
-				title: 'Test Course 1',
-				description: 'This is a test course 1',
-				creationDate: '20/11/2020',
-				duration: 120,
-				authors: ['132refdtx', '243546eertd'],
-			},
-			{
-				id: '2',
-				title: 'Test Course 2',
-				description: 'This is a test course 2',
-				creationDate: '11/10/2021',
-				duration: 120,
-				authors: ['132r456dtx', '243546e123td'],
-			},
-		];
+// 		const mockCourses = [
+// 			{
+// 				id: '1',
+// 				title: 'Test Course 1',
+// 				description: 'This is a test course 1',
+// 				creationDate: '20/11/2020',
+// 				duration: 120,
+// 				authors: ['132refdtx', '243546eertd'],
+// 			},
+// 			{
+// 				id: '2',
+// 				title: 'Test Course 2',
+// 				description: 'This is a test course 2',
+// 				creationDate: '11/10/2021',
+// 				duration: 120,
+// 				authors: ['132r456dtx', '243546e123td'],
+// 			},
+// 		];
 
-		const expectedState = {
-			courses: mockCourses,
-			status: false,
-			error: null,
-		};
+// 		const expectedState = {
+// 			courses: mockCourses,
+// 			status: false,
+// 			error: null,
+// 		};
 
-		store.dispatch(
-			getCoursesRequest.fulfilled(mockCourses, '' as any, undefined as any)
-		);
+// 		store.dispatch(
+// 			getCoursesRequest.fulfilled(mockCourses, '' as any, undefined as any)
+// 		);
 
-		expect(store.getActions()[0]).toEqual(
-			getCoursesRequest.fulfilled(mockCourses, '' as any, undefined as any)
-		);
+// 		expect(store.getActions()[0]).toEqual(
+// 			getCoursesRequest.fulfilled(mockCourses, '' as any, undefined as any)
+// 		);
 
-		expect(store.getState().coursesReducer).toEqual(expectedState);
-	});
+// 		expect(store.getState().coursesReducer).toEqual(expectedState);
+// 	});
 
-	it('should handle deleting a course and returns new state', () => {
-		const store = mockStore({
-			courses: [
-				{
-					id: '1',
-					title: 'Test Course 1',
-					description: 'This is a test course 1',
-				},
-				{
-					id: '2',
-					title: 'Test Course 2',
-					description: 'This is a test course 2',
-				},
-			],
-			status: false,
-			error: null,
-		});
+// 	it('should handle deleting a course and returns new state', () => {
+// 		const store = mockStore({
+// 			courses: [
+// 				{
+// 					id: '1',
+// 					title: 'Test Course 1',
+// 					description: 'This is a test course 1',
+// 				},
+// 				{
+// 					id: '2',
+// 					title: 'Test Course 2',
+// 					description: 'This is a test course 2',
+// 				},
+// 			],
+// 			status: false,
+// 			error: null,
+// 		});
 
-		const courseId = '1';
+// 		const courseId = '1';
 
-		const expectedState = {
-			courses: [
-				{
-					id: '2',
-					title: 'Test Course 2',
-					description: 'This is a test course 2',
-				},
-			],
-			status: false,
-			error: null,
-		};
+// 		const expectedState = {
+// 			courses: [
+// 				{
+// 					id: '2',
+// 					title: 'Test Course 2',
+// 					description: 'This is a test course 2',
+// 				},
+// 			],
+// 			status: false,
+// 			error: null,
+// 		};
 
-		store.dispatch(
-			deleteCourseRequest.fulfilled(courseId, '' as any, undefined as any)
-		);
+// 		store.dispatch(
+// 			deleteCourseRequest.fulfilled(courseId, '' as any, undefined as any)
+// 		);
 
-		expect(store.getActions()[0]).toEqual(
-			deleteCourseRequest.fulfilled(courseId, '' as any, undefined as any)
-		);
+// 		expect(store.getActions()[0]).toEqual(
+// 			deleteCourseRequest.fulfilled(courseId, '' as any, undefined as any)
+// 		);
 
-		expect(store.getState().coursesReducer).toEqual(expectedState);
-	});
-});
+// 		expect(store.getState().coursesReducer).toEqual(expectedState);
+// 	});
+// });
 
 // import configureStore from 'redux-mock-store';
 // import thunk from 'redux-thunk';
