@@ -20,7 +20,7 @@ const course = {
 	description: 'courseCardDescription1',
 	creationDate: '3/4/2015',
 	duration: 240,
-	authors: ['27cc3006-e93a-4748-8ca8-73d06aa93b6d'],
+	authors: ['df32994e-b23d-497c-9e4d-84e4dc02882f'],
 };
 
 jest.mock('../../../../../hooks/useCoursesHook', () => {
@@ -40,7 +40,7 @@ jest.mock('../../../../../hooks/useCoursesHook', () => {
 				description: 'descriptionTest2',
 				creationDate: '3/4/2023',
 				duration: 90,
-				authors: ['27cc3006-e93a-4748-8ca8-73d06aa93b6d'],
+				authors: ['df32994e-b23d-497c-9e4d-84e4dc02882f'],
 			},
 		],
 	});
@@ -101,7 +101,7 @@ describe('Course card tests', () => {
 			</Provider>
 		);
 		screen.debug();
-		const authorName = await screen.findByText(/Vasiliy Dobkin/i);
+		const authorName = await screen.findByText(/Anna Sidorenko/i);
 		expect(authorName).toBeInTheDocument();
 	});
 

@@ -56,7 +56,7 @@ export const updateCourseRequest = createAsyncThunk<
 	return response;
 });
 
-const initialState: CoursesState = {
+export const initialState: CoursesState = {
 	courses: [],
 	status: false,
 	error: null,
